@@ -1,0 +1,12 @@
+/* Base page styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+/* Consistent sizing */
+* {
+  box-sizing: border-box;
+}

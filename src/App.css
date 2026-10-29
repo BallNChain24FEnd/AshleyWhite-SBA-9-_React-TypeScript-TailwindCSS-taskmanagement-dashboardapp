@@ -1,0 +1,19 @@
+/* Dashboard container */
+.dashboard {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+/* Dashboard heading */
+.dashboard h1 {
+  color: #2563eb;
+}
+
+/* Task section */
+.dashboard section {
+  background-color: #f1f5f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 24px;
+}
