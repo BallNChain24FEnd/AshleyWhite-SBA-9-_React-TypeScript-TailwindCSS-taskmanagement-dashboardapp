@@ -1,9 +1,10 @@
+@import "tailwindcss";
+
 /* Base page styles */
 body {
   margin: 0;
+  min-width: 320px;
   font-family: Arial, sans-serif;
-  background-color: #f8fafc;
-  color: #1e293b;
 }
 
 /* Consistent sizing */
