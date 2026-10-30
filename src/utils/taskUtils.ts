@@ -1,4 +1,3 @@
-
 import type { Task } from "../types";
 
 // Sample task data

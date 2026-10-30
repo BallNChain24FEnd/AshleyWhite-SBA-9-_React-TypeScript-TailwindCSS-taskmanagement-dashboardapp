@@ -22,19 +22,20 @@ export interface TaskFormData {
   dueDate: string;
 }
 
-// Task list props
+ // Task list props
 export interface TaskListProps {
   tasks: Task[];
-  onDelete: (id: number) => void;
-  onStatusChange: (id: number, status: TaskStatus) => void;
+  onDelete?: (id: number) => void;
+  onStatusChange?: (id: number, status: TaskStatus) => void;
 }
 
 // Task item props
 export interface TaskItemProps {
   task: Task;
-  onDelete: (id: number) => void;
-  onStatusChange: (id: number, status: TaskStatus) => void;
+  onDelete?: (id: number) => void;
+  onStatusChange?: (id: number, status: TaskStatus) => void;
 }
+
 // Task form props
 export interface TaskFormProps {
   onSubmit: (task: TaskFormData) => void;
