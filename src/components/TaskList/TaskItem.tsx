@@ -20,9 +20,18 @@ export default function TaskItem({
 
       {/* Task details */}
       <div className="mt-3 flex flex-wrap gap-3 text-sm">
-        <span className="text-purple-600">
-          {task.priority} Priority
-        </span>
+        {/* Priority urgency color */}
+      <span
+        className={`rounded-full px-3 py-1 text-xs font-semibold ${
+        task.priority === "High"
+        ? "bg-red-100 text-red-700"
+        : task.priority === "Medium"
+        ? "bg-amber-100 text-amber-700"
+        : "bg-green-100 text-green-700"
+  }`}
+>
+  {task.priority} Priority
+</span>
 
         <span className="text-slate-500">
           Due: {task.dueDate}

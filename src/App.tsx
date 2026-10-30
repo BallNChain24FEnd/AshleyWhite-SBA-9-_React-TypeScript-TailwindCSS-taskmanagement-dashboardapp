@@ -5,6 +5,7 @@ import type {
   Task,
   TaskFormData,
   TaskStatus,
+  TaskFilterOptions,
 } from "./types";
 
 function App() {
@@ -13,6 +14,14 @@ function App() {
 
   // Store selected task
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+
+  // Store filter settings
+  const [filters, setFilters] = useState<TaskFilterOptions>({
+    status: "All",
+    priority: "All",
+    search: "",
+    sortBy: "Newest",
+  });
 
   // Add or edit task
   function handleSubmitTask(form: TaskFormData) {
@@ -70,11 +79,47 @@ function App() {
     setEditingTask(null);
   }
 
+  // Filter tasks
+  const filteredTasks = tasks.filter((task) => {
+    const matchesStatus =
+      filters.status === "All" || task.status === filters.status;
+
+    const matchesPriority =
+      filters.priority === "All" || task.priority === filters.priority;
+
+    const matchesSearch =
+      task.title.toLowerCase().includes(filters.search.toLowerCase()) ||
+      task.description.toLowerCase().includes(filters.search.toLowerCase());
+
+    return matchesStatus && matchesPriority && matchesSearch;
+  });
+
+  // Sort filtered tasks
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    if (filters.sortBy === "Oldest") {
+      return a.id - b.id;
+    }
+
+    if (filters.sortBy === "Due Date") {
+      return a.dueDate.localeCompare(b.dueDate);
+    }
+
+    if (filters.sortBy === "Priority") {
+      const priorityOrder = { High: 3, Medium: 2, Low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    }
+
+    return b.id - a.id;
+  });
+
   return (
     <>
       {/* Display dashboard */}
       <Dashboard
         tasks={tasks}
+        visibleTasks={sortedTasks}
+        filters={filters}
+        onFilterChange={setFilters}
         onAddTask={handleSubmitTask}
         onDelete={handleDelete}
         onEdit={handleEdit}

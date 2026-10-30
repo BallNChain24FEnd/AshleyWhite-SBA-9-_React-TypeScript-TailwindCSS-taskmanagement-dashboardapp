@@ -1,9 +1,13 @@
+import TaskFilter from "../TaskFilter/TaskFilter";
 import TaskForm from "../TaskForm/TaskForm";
 import TaskList from "../TaskList/TaskList";
 import type { DashboardProps } from "../../types";
 
 export default function Dashboard({
   tasks,
+  visibleTasks,
+  filters,
+  onFilterChange,
   onAddTask,
   onDelete,
   onEdit,
@@ -68,9 +72,15 @@ export default function Dashboard({
           onCancel={onCancel}
         />
 
-        {/* Task list */}
+        {/* Task filter component */}
+        <TaskFilter
+          filters={filters}
+          onFilterChange={onFilterChange}
+        />
+
+        {/* Task list component */}
         <TaskList
-          tasks={tasks}
+          tasks={visibleTasks}
           onDelete={onDelete}
           onEdit={onEdit}
           onStatusChange={onStatusChange}

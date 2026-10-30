@@ -50,6 +50,7 @@ export interface TaskFilterOptions {
   status: "All" | TaskStatus;
   priority: "All" | TaskPriority;
   search: string;
+  sortBy: "Newest" | "Oldest" | "Due Date" | "Priority";
 }
 
 // Task filter props
@@ -61,6 +62,9 @@ export interface TaskFilterProps {
  // Dashboard props
 export interface DashboardProps {
   tasks: Task[];
+  visibleTasks: Task[];
+  filters: TaskFilterOptions;
+  onFilterChange: (filters: TaskFilterOptions) => void;
   onAddTask: (task: TaskFormData) => void;
   onDelete: (id: number) => void;
   onEdit: (task: Task) => void;
