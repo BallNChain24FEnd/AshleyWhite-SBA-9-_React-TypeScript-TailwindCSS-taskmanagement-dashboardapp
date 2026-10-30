@@ -78,58 +78,71 @@ export default function TaskForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-8 rounded-xl bg-white p-6 shadow-sm"
       noValidate
+      className="mb-8 rounded-xl bg-white p-6 text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white"
     >
       {/* Form heading */}
-      <h2 className="mb-4 text-xl font-semibold text-slate-800">
+      <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
         {editingTask ? "Edit Task" : "Add New Task"}
       </h2>
 
       {/* Validation error */}
       {error && (
-        <p role="alert" className="mb-4 text-sm text-red-600">
+        <p role="alert" className="mb-4 text-sm text-red-600 dark:text-red-400">
           {error}
         </p>
       )}
 
       {/* Task title */}
-      <label htmlFor="title" className="mb-1 block text-sm font-medium">
+      <label
+        htmlFor="title"
+        className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+      >
         Task Title *
       </label>
+
       <input
         id="title"
         name="title"
+        type="text"
         value={form.title}
         onChange={handleChange}
-        className="mb-4 w-full rounded-lg border border-slate-300 p-3"
         placeholder="Enter task title"
+        className="mb-4 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 placeholder:text-slate-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder:text-slate-300"
       />
 
       {/* Task description */}
-      <label htmlFor="description" className="mb-1 block text-sm font-medium">
+      <label
+        htmlFor="description"
+        className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+      >
         Description
       </label>
+
       <textarea
         id="description"
         name="description"
         value={form.description}
         onChange={handleChange}
-        className="mb-4 w-full rounded-lg border border-slate-300 p-3"
         placeholder="Enter task description"
         rows={3}
+        className="mb-4 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 placeholder:text-slate-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder:text-slate-300"
       />
 
       {/* Task priority */}
-      <label htmlFor="priority" className="mb-1 block text-sm font-medium">
+      <label
+        htmlFor="priority"
+        className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+      >
         Priority
       </label>
+
       <select
         id="priority"
         name="priority"
         value={form.priority}
         onChange={handleChange}
-        className="mb-4 w-full rounded-lg border border-slate-300 p-3"
+        className="mb-4 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
       >
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
@@ -137,23 +150,27 @@ export default function TaskForm({
       </select>
 
       {/* Due date */}
-      <label htmlFor="dueDate" className="mb-1 block text-sm font-medium">
+      <label
+        htmlFor="dueDate"
+        className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+      >
         Due Date *
       </label>
+
       <input
         id="dueDate"
         name="dueDate"
         type="date"
         value={form.dueDate}
         onChange={handleChange}
-        className="mb-4 w-full rounded-lg border border-slate-300 p-3"
+        className="mb-4 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:[color-scheme:dark]"
       />
 
       {/* Form buttons */}
       <div className="flex gap-3">
         <button
           type="submit"
-          className="rounded-lg bg-blue-700 px-5 py-3 text-white hover:bg-blue-800"
+          className="rounded-lg bg-blue-700 px-5 py-3 font-medium text-white hover:bg-blue-800"
         >
           {editingTask ? "Save Changes" : "Add Task"}
         </button>
@@ -163,7 +180,7 @@ export default function TaskForm({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg bg-slate-500 px-5 py-3 text-white"
+            className="rounded-lg bg-slate-500 px-5 py-3 font-medium text-white hover:bg-slate-600"
           >
             Cancel
           </button>

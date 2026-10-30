@@ -71,5 +71,8 @@ export interface DashboardProps {
   onStatusChange: (id: number, status: TaskStatus) => void;
   editingTask: Task | null;
   onCancel: () => void;
+  darkMode: boolean;
+  onThemeToggle: () => void;
 }
+
 

@@ -8,9 +8,9 @@ export default function TaskList({
   onStatusChange,
 }: TaskListProps) {
   return (
-    <section className="rounded-xl bg-white p-6 shadow-sm">
+    <section className="rounded-xl bg-white p-6 text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white">
       {/* Task list heading */}
-      <h2 className="mb-4 text-xl font-semibold text-slate-800">
+      <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
         My Tasks
       </h2>
 
@@ -28,7 +28,9 @@ export default function TaskList({
           ))}
         </div>
       ) : (
-        <p className="text-slate-500">No tasks available.</p>
+        <p className="text-slate-600 dark:text-slate-300">
+          No tasks available.
+        </p>
       )}
     </section>
   );

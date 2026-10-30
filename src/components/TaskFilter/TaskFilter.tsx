@@ -1,39 +1,55 @@
-import type { TaskFilterProps, TaskStatus, TaskPriority } from "../../types";
+import type {
+  TaskFilterProps,
+  TaskFilterOptions,
+  TaskStatus,
+  TaskPriority,
+} from "../../types";
 
 export default function TaskFilter({
   filters,
   onFilterChange,
 }: TaskFilterProps) {
   return (
-    <section className="mb-8 rounded-xl bg-white p-6 shadow-sm">
+    <section className="mb-8 rounded-xl bg-white p-6 text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white">
       {/* Filter heading */}
-      <h2 className="mb-4 text-xl font-semibold text-slate-800">
+      <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
         Filter Tasks
       </h2>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Search tasks */}
         <div>
-          <label htmlFor="search" className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor="search"
+            className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+          >
             Search
           </label>
+
           <input
             id="search"
             type="text"
             value={filters.search}
             onChange={(e) =>
-              onFilterChange({ ...filters, search: e.target.value })
+              onFilterChange({
+                ...filters,
+                search: e.target.value,
+              })
             }
             placeholder="Search tasks..."
-            className="w-full rounded-lg border border-slate-300 p-3"
+            className="w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 placeholder:text-slate-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder:text-slate-300"
           />
         </div>
 
         {/* Filter by status */}
         <div>
-          <label htmlFor="filterStatus" className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor="filterStatus"
+            className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+          >
             Status
           </label>
+
           <select
             id="filterStatus"
             value={filters.status}
@@ -43,7 +59,7 @@ export default function TaskFilter({
                 status: e.target.value as "All" | TaskStatus,
               })
             }
-            className="w-full rounded-lg border border-slate-300 p-3"
+            className="w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
           >
             <option value="All">All Statuses</option>
             <option value="Pending">Pending</option>
@@ -54,9 +70,13 @@ export default function TaskFilter({
 
         {/* Filter by priority */}
         <div>
-          <label htmlFor="filterPriority" className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor="filterPriority"
+            className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+          >
             Priority
           </label>
+
           <select
             id="filterPriority"
             value={filters.priority}
@@ -66,7 +86,7 @@ export default function TaskFilter({
                 priority: e.target.value as "All" | TaskPriority,
               })
             }
-            className="w-full rounded-lg border border-slate-300 p-3"
+            className="w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
           >
             <option value="All">All Priorities</option>
             <option value="High">High</option>
@@ -77,19 +97,23 @@ export default function TaskFilter({
 
         {/* Sort tasks */}
         <div>
-          <label htmlFor="sortBy" className="mb-1 block text-sm font-medium">
+          <label
+            htmlFor="sortBy"
+            className="mb-1 block text-sm font-medium text-slate-800 dark:text-slate-200"
+          >
             Sort By
           </label>
+
           <select
             id="sortBy"
             value={filters.sortBy}
             onChange={(e) =>
               onFilterChange({
                 ...filters,
-                sortBy: e.target.value as TaskFilterProps["filters"]["sortBy"],
+                sortBy: e.target.value as TaskFilterOptions["sortBy"],
               })
             }
-            className="w-full rounded-lg border border-slate-300 p-3"
+            className="w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
           >
             <option value="Newest">Newest</option>
             <option value="Oldest">Oldest</option>

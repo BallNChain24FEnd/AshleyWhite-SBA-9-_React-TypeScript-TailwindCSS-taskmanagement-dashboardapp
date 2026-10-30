@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { sampleTasks } from "./utils/taskUtils";
 import type {
@@ -9,8 +9,20 @@ import type {
 } from "./types";
 
 function App() {
-  // Store tasks
-  const [tasks, setTasks] = useState<Task[]>(sampleTasks);
+  // Load saved tasks
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem("dashboardTasks");
+
+    if (savedTasks) {
+      try {
+        return JSON.parse(savedTasks) as Task[];
+      } catch {
+        return sampleTasks;
+      }
+    }
+
+    return sampleTasks;
+  });
 
   // Store selected task
   const [editingTask, setEditingTask] = useState<Task | null>(null);
@@ -22,6 +34,29 @@ function App() {
     search: "",
     sortBy: "Newest",
   });
+
+  // Load saved theme
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    return localStorage.getItem("dashboardTheme") === "dark";
+  });
+
+  // Save tasks when changed
+  useEffect(() => {
+    localStorage.setItem("dashboardTasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  // Save theme when changed
+  useEffect(() => {
+    localStorage.setItem(
+      "dashboardTheme",
+      darkMode ? "dark" : "light"
+    );
+  }, [darkMode]);
+
+  // Toggle theme
+  function handleThemeToggle() {
+    setDarkMode((prevMode) => !prevMode);
+  }
 
   // Add or edit task
   function handleSubmitTask(form: TaskFormData) {
@@ -126,6 +161,8 @@ function App() {
         onStatusChange={handleStatusChange}
         editingTask={editingTask}
         onCancel={handleCancel}
+        darkMode={darkMode}
+        onThemeToggle={handleThemeToggle}
       />
     </>
   );
