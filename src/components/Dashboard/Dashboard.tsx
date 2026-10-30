@@ -5,9 +5,14 @@ import type { DashboardProps } from "../../types";
 export default function Dashboard({
   tasks,
   onAddTask,
+  onDelete,
+  onEdit,
+  onStatusChange,
+  editingTask,
+  onCancel,
 }: DashboardProps) {
-// Get total tasks
-const totalTasks = tasks.length;
+  // Get task statistics
+  const totalTasks = tasks.length;
 
   const inProgressTasks = tasks.filter(
     (task) => task.status === "In Progress"
@@ -26,7 +31,6 @@ const totalTasks = tasks.length;
           <h1 className="text-3xl font-bold text-blue-700">
             Task Management Dashboard
           </h1>
-
           <p className="mt-2 text-slate-600">
             Organize your tasks and track your progress.
           </p>
@@ -36,7 +40,7 @@ const totalTasks = tasks.length;
         <section className="mb-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl bg-white p-5 shadow-sm">
             <h2 className="text-slate-600">Total Tasks</h2>
-            <p className="mt-2 text-3xl font-bold text-slate-800">
+            <p className="mt-2 text-3xl font-bold">
               {totalTasks}
             </p>
           </div>
@@ -56,11 +60,21 @@ const totalTasks = tasks.length;
           </div>
         </section>
 
-        {/* Task form component */}
-<TaskForm onSubmit={onAddTask} />
+        {/* Task form */}
+        <TaskForm
+          key={editingTask?.id ?? "new"}
+          editingTask={editingTask}
+          onSubmit={onAddTask}
+          onCancel={onCancel}
+        />
 
-{/* Task list component */}
-<TaskList tasks={tasks} />
+        {/* Task list */}
+        <TaskList
+          tasks={tasks}
+          onDelete={onDelete}
+          onEdit={onEdit}
+          onStatusChange={onStatusChange}
+        />
       </main>
     </div>
   );

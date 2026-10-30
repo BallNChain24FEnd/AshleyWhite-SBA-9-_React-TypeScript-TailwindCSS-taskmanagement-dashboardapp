@@ -5,13 +5,17 @@ import type {
   TaskPriority,
 } from "../../types";
 
-export default function TaskForm({ onSubmit }: TaskFormProps) {
+export default function TaskForm({
+  onSubmit,
+  editingTask,
+  onCancel,
+}: TaskFormProps) {
   // Store form values
   const [form, setForm] = useState<TaskFormData>({
-    title: "",
-    description: "",
-    priority: "Medium",
-    dueDate: "",
+    title: editingTask?.title || "",
+    description: editingTask?.description || "",
+    priority: editingTask?.priority || "Medium",
+    dueDate: editingTask?.dueDate || "",
   });
 
   // Store validation error
@@ -31,7 +35,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
     });
   }
 
-  // Submit new task
+  // Submit task
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -53,7 +57,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
       return;
     }
 
-    // Add task
+    // Save task
     onSubmit({
       ...form,
       title: form.title.trim(),
@@ -77,11 +81,12 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
       className="mb-8 rounded-xl bg-white p-6 shadow-sm"
       noValidate
     >
+      {/* Form heading */}
       <h2 className="mb-4 text-xl font-semibold text-slate-800">
-        Add New Task
+        {editingTask ? "Edit Task" : "Add New Task"}
       </h2>
 
-      {/* Show validation error */}
+      {/* Validation error */}
       {error && (
         <p role="alert" className="mb-4 text-sm text-red-600">
           {error}
@@ -102,10 +107,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
       />
 
       {/* Task description */}
-      <label
-        htmlFor="description"
-        className="mb-1 block text-sm font-medium"
-      >
+      <label htmlFor="description" className="mb-1 block text-sm font-medium">
         Description
       </label>
       <textarea
@@ -134,7 +136,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
         <option value="High">High</option>
       </select>
 
-      {/* Task due date */}
+      {/* Due date */}
       <label htmlFor="dueDate" className="mb-1 block text-sm font-medium">
         Due Date *
       </label>
@@ -147,13 +149,26 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
         className="mb-4 w-full rounded-lg border border-slate-300 p-3"
       />
 
-      {/* Submit button */}
-      <button
-        type="submit"
-        className="rounded-lg bg-blue-700 px-5 py-3 font-medium text-white transition hover:bg-blue-800"
-      >
-        Add Task
-      </button>
+      {/* Form buttons */}
+      <div className="flex gap-3">
+        <button
+          type="submit"
+          className="rounded-lg bg-blue-700 px-5 py-3 text-white hover:bg-blue-800"
+        >
+          {editingTask ? "Save Changes" : "Add Task"}
+        </button>
+
+        {/* Cancel editing */}
+        {editingTask && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="rounded-lg bg-slate-500 px-5 py-3 text-white"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }

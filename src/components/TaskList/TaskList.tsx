@@ -1,7 +1,12 @@
 import TaskItem from "./TaskItem";
 import type { TaskListProps } from "../../types";
 
-export default function TaskList({ tasks }: TaskListProps) {
+export default function TaskList({
+  tasks,
+  onDelete,
+  onEdit,
+  onStatusChange,
+}: TaskListProps) {
   return (
     <section className="rounded-xl bg-white p-6 shadow-sm">
       {/* Task list heading */}
@@ -13,13 +18,17 @@ export default function TaskList({ tasks }: TaskListProps) {
       {tasks.length > 0 ? (
         <div className="space-y-4">
           {tasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
+            <TaskItem
+              key={task.id}
+              task={task}
+              onDelete={onDelete}
+              onEdit={onEdit}
+              onStatusChange={onStatusChange}
+            />
           ))}
         </div>
       ) : (
-        <p className="text-slate-500">
-          No tasks available.
-        </p>
+        <p className="text-slate-500">No tasks available.</p>
       )}
     </section>
   );
