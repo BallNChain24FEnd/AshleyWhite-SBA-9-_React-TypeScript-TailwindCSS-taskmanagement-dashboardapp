@@ -55,7 +55,9 @@ export interface TaskFilterProps {
   onFilterChange: (filters: TaskFilterOptions) => void;
 }
 
-// Dashboard props
+ // Dashboard props
 export interface DashboardProps {
   tasks: Task[];
+  onAddTask: (task: TaskFormData) => void;
 }
+

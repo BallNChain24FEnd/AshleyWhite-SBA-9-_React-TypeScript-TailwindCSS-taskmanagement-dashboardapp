@@ -1,9 +1,13 @@
+import TaskForm from "../TaskForm/TaskForm";
 import TaskList from "../TaskList/TaskList";
 import type { DashboardProps } from "../../types";
 
-export default function Dashboard({ tasks }: DashboardProps) {
-  // Get task statistics
-  const totalTasks = tasks.length;
+export default function Dashboard({
+  tasks,
+  onAddTask,
+}: DashboardProps) {
+// Get total tasks
+const totalTasks = tasks.length;
 
   const inProgressTasks = tasks.filter(
     (task) => task.status === "In Progress"
@@ -52,8 +56,11 @@ export default function Dashboard({ tasks }: DashboardProps) {
           </div>
         </section>
 
-        {/* Task list component */}
-        <TaskList tasks={tasks} />
+        {/* Task form component */}
+<TaskForm onSubmit={onAddTask} />
+
+{/* Task list component */}
+<TaskList tasks={tasks} />
       </main>
     </div>
   );
