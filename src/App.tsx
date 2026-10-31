@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { sampleTasks } from "./utils/taskUtils";
+import {
+  exportTasks,
+  isValidTaskData,
+} from "./utils/taskStorage";
 import type {
   Task,
   TaskFormData,
@@ -15,7 +19,11 @@ function App() {
 
     if (savedTasks) {
       try {
-        return JSON.parse(savedTasks) as Task[];
+        const parsedTasks: unknown = JSON.parse(savedTasks);
+
+        return isValidTaskData(parsedTasks)
+          ? parsedTasks
+          : sampleTasks;
       } catch {
         return sampleTasks;
       }
@@ -39,6 +47,9 @@ function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     return localStorage.getItem("dashboardTheme") === "dark";
   });
+
+  // Store import feedback
+  const [importMessage, setImportMessage] = useState("");
 
   // Save tasks when changed
   useEffect(() => {
@@ -114,6 +125,95 @@ function App() {
     setEditingTask(null);
   }
 
+  // Move task up
+  function handleMoveUp(id: number) {
+    setTasks((prevTasks) => {
+      const updatedTasks = [...prevTasks];
+      const index = updatedTasks.findIndex(
+        (task) => task.id === id
+      );
+
+      if (index <= 0) {
+        return prevTasks;
+      }
+
+      // Swap with previous task
+      [updatedTasks[index - 1], updatedTasks[index]] = [
+        updatedTasks[index],
+        updatedTasks[index - 1],
+      ];
+
+      return updatedTasks;
+    });
+  }
+
+  // Move task down
+  function handleMoveDown(id: number) {
+    setTasks((prevTasks) => {
+      const updatedTasks = [...prevTasks];
+      const index = updatedTasks.findIndex(
+        (task) => task.id === id
+      );
+
+      if (index < 0 || index >= updatedTasks.length - 1) {
+        return prevTasks;
+      }
+
+      // Swap with next task
+      [updatedTasks[index], updatedTasks[index + 1]] = [
+        updatedTasks[index + 1],
+        updatedTasks[index],
+      ];
+
+      return updatedTasks;
+    });
+  }
+
+  // Export task backup
+  function handleExport() {
+    exportTasks(tasks);
+  }
+
+  // Import task backup
+  async function handleImport(file: File): Promise<void> {
+    try {
+      // Read JSON file
+      const fileText = await file.text();
+      const importedData: unknown = JSON.parse(fileText);
+
+      // Validate imported tasks
+      if (!isValidTaskData(importedData)) {
+        setImportMessage("Invalid task backup file.");
+        return;
+      }
+
+      // Confirm replacement
+      const confirmed = window.confirm(
+        "Importing will replace your current tasks. Continue?"
+      );
+
+      if (!confirmed) {
+        setImportMessage("Import cancelled.");
+        return;
+      }
+
+      // Restore imported tasks
+      setTasks(importedData);
+      setEditingTask(null);
+      setImportMessage("Tasks imported successfully.");
+
+      // Show imported order
+      setFilters({
+        status: "All",
+        priority: "All",
+        search: "",
+        sortBy: "Manual",
+      });
+    } catch {
+      setImportMessage("Could not read task backup file.");
+    }
+  }
+
   // Filter tasks
   const filteredTasks = tasks.filter((task) => {
     const matchesStatus =
@@ -131,6 +231,10 @@ function App() {
 
   // Sort filtered tasks
   const sortedTasks = [...filteredTasks].sort((a, b) => {
+    if (filters.sortBy === "Manual") {
+      return 0;
+    }
+
     if (filters.sortBy === "Oldest") {
       return a.id - b.id;
     }
@@ -146,6 +250,13 @@ function App() {
 
     return b.id - a.id;
   });
+
+  // Allow reordering in manual view
+  const canReorder =
+    filters.sortBy === "Manual" &&
+    filters.status === "All" &&
+    filters.priority === "All" &&
+    filters.search.trim() === "";
 
   return (
     <>
@@ -163,6 +274,12 @@ function App() {
         onCancel={handleCancel}
         darkMode={darkMode}
         onThemeToggle={handleThemeToggle}
+        onMoveUp={handleMoveUp}
+        onMoveDown={handleMoveDown}
+        canReorder={canReorder}
+        onExport={handleExport}
+        onImport={handleImport}
+        importMessage={importMessage}
       />
     </>
   );

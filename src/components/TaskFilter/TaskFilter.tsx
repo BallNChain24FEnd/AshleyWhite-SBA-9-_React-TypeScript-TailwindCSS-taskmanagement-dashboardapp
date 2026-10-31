@@ -114,7 +114,9 @@ export default function TaskFilter({
               })
             }
             className="w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
-          >
+          > 
+            {/* Manual task order */}
+            <option value="Manual">Manual</option>
             <option value="Newest">Newest</option>
             <option value="Oldest">Oldest</option>
             <option value="Due Date">Due Date</option>

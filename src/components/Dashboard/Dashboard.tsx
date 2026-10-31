@@ -1,6 +1,7 @@
 import TaskFilter from "../TaskFilter/TaskFilter";
 import TaskForm from "../TaskForm/TaskForm";
 import TaskList from "../TaskList/TaskList";
+import TaskStorage from "../TaskStorage/TaskStorage";
 import type { DashboardProps } from "../../types";
 
 export default function Dashboard({
@@ -16,6 +17,12 @@ export default function Dashboard({
   onCancel,
   darkMode,
   onThemeToggle,
+  onMoveUp,
+  onMoveDown,
+  canReorder,
+  onExport,
+  onImport,
+  importMessage,
 }: DashboardProps) {
   // Get task statistics
   const totalTasks = tasks.length;
@@ -139,12 +146,29 @@ export default function Dashboard({
           onFilterChange={onFilterChange}
         />
 
+        {/* Task backup */}
+        <TaskStorage
+          onExport={onExport}
+          onImport={onImport}
+          importMessage={importMessage}
+        />
+
+        {/* Reordering instructions */}
+        {!canReorder && (
+          <p className="mb-4 text-sm text-slate-700 dark:text-slate-300">
+            Select Manual sorting and clear all filters to reorder tasks.
+          </p>
+        )}
+
         {/* Task list */}
         <TaskList
           tasks={visibleTasks}
           onDelete={onDelete}
           onEdit={onEdit}
           onStatusChange={onStatusChange}
+          onMoveUp={onMoveUp}
+          onMoveDown={onMoveDown}
+          canReorder={canReorder}
         />
       </main>
     </div>

@@ -28,6 +28,9 @@ export interface TaskListProps {
   onDelete: (id: number) => void;
   onEdit: (task: Task) => void;
   onStatusChange: (id: number, status: TaskStatus) => void;
+  onMoveUp: (id: number) => void;
+  onMoveDown: (id: number) => void;
+  canReorder: boolean;
 }
 
 // Task item props
@@ -36,7 +39,12 @@ export interface TaskItemProps {
   onDelete: (id: number) => void;
   onEdit: (task: Task) => void;
   onStatusChange: (id: number, status: TaskStatus) => void;
+  onMoveUp: (id: number) => void;
+  onMoveDown: (id: number) => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
 }
+
 
 // Task form props
 export interface TaskFormProps {
@@ -50,7 +58,7 @@ export interface TaskFilterOptions {
   status: "All" | TaskStatus;
   priority: "All" | TaskPriority;
   search: string;
-  sortBy: "Newest" | "Oldest" | "Due Date" | "Priority";
+  sortBy: "Manual" | "Newest" | "Oldest" | "Due Date" | "Priority";
 }
 
 // Task filter props
@@ -59,7 +67,7 @@ export interface TaskFilterProps {
   onFilterChange: (filters: TaskFilterOptions) => void;
 }
 
- // Dashboard props
+// Dashboard props
 export interface DashboardProps {
   tasks: Task[];
   visibleTasks: Task[];
@@ -73,6 +81,12 @@ export interface DashboardProps {
   onCancel: () => void;
   darkMode: boolean;
   onThemeToggle: () => void;
+  onMoveUp: (id: number) => void;
+  onMoveDown: (id: number) => void;
+  onExport: () => void;
+  onImport: (file: File) => Promise<void>;
+  importMessage: string;
+  canReorder: boolean;
 }
 
 

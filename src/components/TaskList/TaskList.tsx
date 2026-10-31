@@ -6,6 +6,9 @@ export default function TaskList({
   onDelete,
   onEdit,
   onStatusChange,
+  onMoveUp,
+  onMoveDown,
+  canReorder,
 }: TaskListProps) {
   return (
     <section className="rounded-xl bg-white p-6 text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white">
@@ -17,13 +20,17 @@ export default function TaskList({
       {/* Show tasks or empty message */}
       {tasks.length > 0 ? (
         <div className="space-y-4">
-          {tasks.map((task) => (
+          {tasks.map((task, index) => (
             <TaskItem
               key={task.id}
               task={task}
               onDelete={onDelete}
               onEdit={onEdit}
               onStatusChange={onStatusChange}
+              onMoveUp={onMoveUp}
+              onMoveDown={onMoveDown}
+              canMoveUp={canReorder && index > 0}
+              canMoveDown={canReorder && index < tasks.length - 1}
             />
           ))}
         </div>

@@ -1,13 +1,14 @@
-import type {
-  TaskItemProps,
-  TaskStatus,
-} from "../../types";
+import type { TaskItemProps, TaskStatus } from "../../types";
 
 export default function TaskItem({
   task,
   onDelete,
   onEdit,
   onStatusChange,
+  onMoveUp,
+  onMoveDown,
+  canMoveUp,
+  canMoveDown,
 }: TaskItemProps) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-4 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
@@ -55,10 +56,7 @@ export default function TaskItem({
           id={`status-${task.id}`}
           value={task.status}
           onChange={(e) =>
-            onStatusChange(
-              task.id,
-              e.target.value as TaskStatus
-            )
+            onStatusChange(task.id, e.target.value as TaskStatus)
           }
           className="rounded-lg border border-slate-300 bg-white p-2 text-sm text-slate-900 dark:border-slate-500 dark:bg-slate-600 dark:text-white"
         >
@@ -69,7 +67,7 @@ export default function TaskItem({
       </div>
 
       {/* Task buttons */}
-      <div className="mt-4 flex gap-3">
+      <div className="mt-4 flex flex-wrap gap-3">
         <button
           type="button"
           onClick={() => onEdit(task)}
@@ -84,6 +82,26 @@ export default function TaskItem({
           className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
         >
           Delete
+        </button>
+
+        {/* Move task up */}
+        <button
+          type="button"
+          onClick={() => onMoveUp(task.id)}
+          disabled={!canMoveUp}
+          className="rounded-lg bg-slate-600 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ↑ Move Up
+        </button>
+
+        {/* Move task down */}
+        <button
+          type="button"
+          onClick={() => onMoveDown(task.id)}
+          disabled={!canMoveDown}
+          className="rounded-lg bg-slate-600 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ↓ Move Down
         </button>
       </div>
     </div>
